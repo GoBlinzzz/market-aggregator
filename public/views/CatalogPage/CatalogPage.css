@@ -1,9 +1,6 @@
-
 .catalog {
     width: auto;
     height: auto;
-    min-height: 90vh;
-    margin-top: -5vh;
     border-radius: 30px;
     background-color: white;
 }
