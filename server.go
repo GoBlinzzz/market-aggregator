@@ -1,9 +1,11 @@
 package main
 
 import (
-	"log"
-	"net/http"
+	"encoding/json"
 	"github.com/gorilla/mux"
+	"log"
+	"market-backend/parser"
+	"net/http"
 	"os"
 	"path/filepath"
 )
@@ -35,7 +37,13 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func api(w http.ResponseWriter, r *http.Request) {
-
+	items := parser.Search(r.URL.Query().Get("text"))
+	if itemsJSON, err := json.Marshal(&parser.TemplateJSON{Count: len(items), Items: items}); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	} else {
+		_, _ = w.Write(itemsJSON)
+	}
 }
 
 func main() {
