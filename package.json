@@ -1,0 +1,24 @@
+{
+  "name": "market-aggregator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "handlebars public/ -f public/compiledTemplates.tmpl.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoBlinzzz/market-aggregator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GoBlinzzz/market-aggregator/issues"
+  },
+  "homepage": "https://github.com/GoBlinzzz/market-aggregator#readme",
+  "dependencies": {
+    "handlebars": "^4.7.7"
+  }
+}
