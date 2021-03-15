@@ -28,7 +28,7 @@ export class HttpRequest {
             credentials: 'include'
         });
 
-        let parsedResponse = {status: response.status};
+        let parsedResponse = {status: response.status, body: null};
         let parsedBody = null;
 
         try {
