@@ -1,0 +1,51 @@
+<div class="catalog">
+    <div class="catalog__content">
+        <div class="catalog__request-div">
+            <div class="catalog__request-text">
+                По запросу «видеокарта» найдено
+            </div>
+            <div class="catalog__request-count-found">
+                {{count}} товаров
+            </div>
+        </div>
+
+        <div class="catalog__sorting-div">
+            <div class="catalog__sorting-text">
+                Сортировать по:
+            </div>
+            <div class="catalog__sorting-params-div">
+                <div class="catalog__sorting-param-div">Популярности</div>
+                <div class="catalog__sorting-param-div">Рейтингу</div>
+                <div class="catalog__sorting-param-div">Цене</div>
+            </div>
+        </div>
+
+        <div class="catalog__items-div">
+            {{#each items}}
+                <div class="catalog__item-div">
+                    <div class="catalog__item-wrapper-img">
+                        <img src="{{image}}" alt=""
+                             class="catalog__item-img">
+                    </div>
+                    <div class="catalog__item-info-div">
+                        <div class="catalog__item-price">{{price}}</div>
+                        <div class="catalog__item-title">{{title}}</div>
+                        <div class="catalog__item-reviews-div">
+                            <div class="catalog__item-rating">
+                                <img src="assets/star-full.png" alt="" class="catalog-item-rating-img">
+                                <img src="assets/star-full.png" alt="" class="catalog-item-rating-img">
+                                <img src="assets/star-full.png" alt="" class="catalog-item-rating-img">
+                                <img src="assets/star-half.png" alt="" class="catalog-item-rating-img">
+                                <img src="assets/star-empty.png" alt="" class="catalog-item-rating-img">
+                                <span class="catalog__item-review-count">{{reviewCount}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="catalog__add-to-cart-div">
+                        <img src="assets/add-to-cart.png" alt="" class="catalog__add-to-cart-img">
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
