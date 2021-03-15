@@ -52,6 +52,7 @@ var (
 
 
 func Search(text string) []*Item {
+	text = url.QueryEscape(text)
 	return append(getItems("https://wildberries.ru", "https://www.wildberries.ru/catalog/0/search.aspx?xsearch=true&search=" + text, params1), getItems("https://citilink.ru", "https://www.citilink.ru/search/?text=" + text, params2)...)
 }
 
