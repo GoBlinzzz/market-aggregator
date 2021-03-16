@@ -4,6 +4,7 @@ import (
 	"golang.org/x/net/html"
 	"net/http"
 	"net/url"
+	"sort"
 	"strings"
 )
 
@@ -12,6 +13,7 @@ type Item struct {
 	ImageSrc string `json:"image"`
 	Name string `json:"title"`
 	Price string `json:"price"`
+	intPrice int
 }
 
 type pattern struct {
@@ -51,9 +53,46 @@ var (
 )
 
 
-func Search(text string) []*Item {
+func Search(text string, query string) []*Item {
 	text = url.QueryEscape(text)
-	return append(getItems("https://wildberries.ru", "https://www.wildberries.ru/catalog/0/search.aspx?xsearch=true&search=" + text, params1), getItems("https://citilink.ru", "https://www.citilink.ru/search/?text=" + text, params2)...)
+
+	items := getItems("https://wildberries.ru", "https://www.wildberries.ru/catalog/0/search.aspx?xsearch=true&search=" + text, params1)
+	for _, item := range items {
+		runes := []rune(item.Price)
+		for i := 0; i < len(runes); i++ {
+			if runes[i] == '₽' {
+				runes = runes[:i + 1]
+				i = len(runes)
+			}
+		}
+		item.Price = string(runes)
+	}
+	items = append(items, getItems("https://citilink.ru", "https://www.citilink.ru/search/?text=" + text, params2)...)
+	for _, item := range items {
+		runes := []byte(item.Price)
+		strInt := 0
+		for _, r := range runes {
+			if r >= '0' && r <= '9' {
+				strInt = 10 * strInt + int(r) - '0'
+			}
+		}
+		item.intPrice = strInt
+	}
+	sortItems(query, items)
+	return items
+}
+
+func sortItems(query string, items []*Item) {
+	switch query {
+	case "aprice":
+		sort.SliceStable(items, func(i , j int) bool {
+			return items[i].intPrice < items[j].intPrice
+		})
+	case "dprice":
+		sort.SliceStable(items, func(i , j int) bool {
+			return items[i].intPrice > items[j].intPrice
+		})
+	}
 }
 
 func getHTMLNode (link string) (*html.Node, bool) { //request to url, if it's OK returns html.body
@@ -169,11 +208,15 @@ func getLinkFromItem(node *html.Node, params []pattern) string {
 	return getAttr(node, "href")
 }
 
-func getImageFromItem(node *html.Node, params []pattern) string {
+func getImageFromItem(node *html.Node, params []pattern) (attr string) {
 	for _, p := range params {
 		node = searchInNode(node, &p)
 	}
-	return getAttr(node, "src")
+	attr = getAttr(node, "src")
+	if strings.Contains(attr, ".gif") {
+		attr = "https:" + getAttr(node, "data-original")
+	}
+	return
 }
 
 func getInfoFromItem(node *html.Node, params []pattern) string {
