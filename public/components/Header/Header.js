@@ -17,6 +17,9 @@ async function sendSearchRequest() {
         })
             .then((res) => {
                 if (res.status === 200) {
+                    let catalogCtx = res.body;
+                    catalogCtx.request = searchString;
+
                     app.innerHTML = headerTemplate();
                     app.innerHTML += catalogPageTemplate(res.body);
                 }
