@@ -16,13 +16,17 @@
     align-items: center;
 }
 
-
 .header__logo {
     min-width: 20%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
-.header__logo:hover {
+.header__logo-content {
+    width: auto;
+}
+
+.header__logo-content:hover {
     cursor: pointer;
 }
 
