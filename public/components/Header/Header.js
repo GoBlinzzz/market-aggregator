@@ -36,20 +36,16 @@ async function sendSearchRequest(how = '') {
                 if (res.status === 200) {
                     let catalogCtx = res.body;
                     catalogCtx.items.forEach(item => {
-                        if (!item.rating) {
-                            item.rating = '0';
-                        }
-                        if (!item.reviewCount) {
-                            item.reviewCount = '0';
-                        }
                         switch (item.sourceMarket) {
                             case 'wb':
                                 item.marketTitle = 'Wildberries';
                                 item.marketLink = 'https://www.wildberries.ru/';
+                                item.reviewLink = item.link;
                                 break;
                             case 'ctl':
                                 item.marketTitle = 'Citilink';
                                 item.marketLink = 'https://citilink.ru/';
+                                item.reviewLink = item.link + 'otzyvy';
                                 break;
                         }
                     })
