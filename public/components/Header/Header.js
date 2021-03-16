@@ -1,13 +1,19 @@
 import {HttpRequest} from "../../modules/http.js";
 
-const http = new HttpRequest('/api');
+window.http = new HttpRequest('/api');
+window.searchString = '';
+
 const app = document.getElementById('app');
-const submitButton = document.getElementsByClassName('header__search-button').item(0);
+const submitButton = document.getElementsByClassName('header__search-button')
+    .item(0);
 const logo = document.getElementsByClassName('header__logo-content').item(0);
-const searchInput = document.getElementsByClassName('header__search-input').item(0);
+const searchInput = document.getElementsByClassName('header__search-input')
+    .item(0);
 
 const mainPageTemplate = Handlebars.templates['views/MainPage/MainPage'];
 const catalogPageTemplate = Handlebars.templates['views/CatalogPage/CatalogPage'];
+
+window.searchRequestPending = false;
 
 submitButton.addEventListener('click', sendSearchRequest);
 logo.addEventListener('click', goMainPage);
@@ -17,24 +23,36 @@ searchInput.addEventListener('keyup', (event) => {
     }
 });
 
-async function sendSearchRequest() {
-    const searchString = document.getElementsByClassName('header__search-input').item(0).value;
-    if (searchString !== '') {
+async function sendSearchRequest(how = '') {
+    searchString = document.getElementsByClassName('header__search-input')
+        .item(0).value;
+    if (!searchRequestPending && searchString !== '') {
+        searchRequestPending = true;
         http.get({
-            'url': '/search' + '?text=' + searchString
+            'url': '/search' + '?text=' + searchString + '&how=' + how
         })
             .then((res) => {
+                searchRequestPending = false;
                 if (res.status === 200) {
                     let catalogCtx = res.body;
+                    catalogCtx.items.forEach(item => {
+                        if (!item.rating) {
+                            item.rating = '0';
+                        }
+                        if (!item.reviewCount) {
+                            item.reviewCount = '0';
+                        }
+                    })
                     catalogCtx.request = searchString;
 
-                    const header = document.getElementsByClassName('header').item(0);
+                    const header = document.getElementsByClassName('header')
+                        .item(0);
                     header.nextElementSibling.remove();
 
                     const content = catalogPageTemplate(res.body);
                     header.insertAdjacentHTML('afterend', content);
                 }
-            })
+            });
     }
 }
 
@@ -45,3 +63,5 @@ function goMainPage() {
     const content = mainPageTemplate();
     header.insertAdjacentHTML('afterend', content);
 }
+
+window.sendSearchRequest = sendSearchRequest;
