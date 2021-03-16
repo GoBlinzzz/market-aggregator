@@ -59,8 +59,8 @@ var (
 		{{"div", "class", "ProductCardVerticalLayout ProductCardVertical__layout", 1}, {"div", "class", "ProductCardVerticalLayout__header", 1}, {"div", "class", "ProductCardVerticalLayout__wrapper-cover-image ProductCardVertical__layout-cover-image", 1}, {"a", "class", "ProductCardVertical__image-link  Link js--Link Link_type_default", 1}, {"div", "class", "ProductCardVertical__image-wrapper", 1}, {"div", "class", "ProductCardVertical__picture-container ", 1}, {"img", "class", "ProductCardVertical__picture js--ProductCardInListing__picture", 1}},
 		{{"div", "class", "ProductCardVerticalLayout ProductCardVertical__layout", 1}, {"div", "class", "ProductCardVerticalLayout__header", 1}, {"div", "class", "ProductCardVerticalLayout__wrapper-description ProductCardVertical__layout-description", 1}, {"div", "class", "ProductCardVertical__description ", 1}, {"a", "class", " ProductCardVertical__name  Link js--Link Link_type_default", 1}},
 		{{"div", "class", "ProductCardVerticalLayout ProductCardVertical__layout", 1}, {"div", "class", "ProductCardVerticalLayout__footer", 1}, {"div", "class", "ProductCardVerticalLayout__wrapper-price", 1}, {"div", "class", "ProductCardVertical_mobile", 1}, {"div", "class", "ProductCardVertical__price-with-amount", 1}, {"div", "class", "ProductPrice ProductPrice_default ProductCardVerticalPrice__price-current", 1}},
-		{{"div", "class", "ProductCardVerticalLayout ProductCardVertical__layout", 1}, {"div", "class", "ProductCardVerticalLayout__header", 1},{"div", "class", "ProductCardVerticalLayout__wrapper-meta", 1}, {"div", "class", "ProductCardVerticalMeta ", 1}, {"div", "class", "ProductCardVerticalMeta__info", 1}, {"div", "class", "Tooltip ProductCardVerticalMeta__tooltip js--Tooltip  js--Tooltip_hover Tooltip_placement_top", 1}, {"a", "class", "  Link js--Link Link_type_default", 1}, {"div", "class", "ProductCardVerticalMeta__text IconWithCount js--IconWithCount", 1}},
-		{{"div", "class", "ProductCardVerticalLayout ProductCardVertical__layout", 1}, {"div", "class", "ProductCardVerticalLayout__header", 1},{"div", "class", "ProductCardVerticalLayout__wrapper-meta", 1}, {"div", "class", "ProductCardVerticalMeta ", 1}, {"div", "class", "ProductCardVerticalMeta__info", 2}, {"div", "class", "Tooltip ProductCardVerticalMeta__tooltip js--Tooltip  js--Tooltip_hover Tooltip_placement_top", 1}, {"a", "class", "  Link js--Link Link_type_default", 1}},
+		{{"div", "class", "ProductCardVerticalLayout ProductCardVertical__layout", 1}, {"div", "class", "ProductCardVerticalLayout__header", 1}, {"div", "class", "ProductCardVerticalLayout__wrapper-meta", 1}, {"div", "class", "ProductCardVerticalMeta ", 1}, {"div", "class", "ProductCardVerticalMeta__info", 1}, {"div", "class", "Tooltip ProductCardVerticalMeta__tooltip js--Tooltip  js--Tooltip_hover Tooltip_placement_top", 1}, {"a", "class", "  Link js--Link Link_type_default", 1}, {"div", "class", "ProductCardVerticalMeta__text IconWithCount js--IconWithCount", 1}},
+		{{"div", "class", "ProductCardVerticalLayout ProductCardVertical__layout", 1}, {"div", "class", "ProductCardVerticalLayout__header", 1}, {"div", "class", "ProductCardVerticalLayout__wrapper-meta", 1}, {"div", "class", "ProductCardVerticalMeta ", 1}, {"div", "class", "ProductCardVerticalMeta__info", 2}, {"div", "class", "Tooltip ProductCardVerticalMeta__tooltip js--Tooltip  js--Tooltip_hover Tooltip_placement_top", 1}, {"a", "class", "  Link js--Link Link_type_default", 1}},
 	}
 )
 
@@ -78,7 +78,7 @@ func Search(text string, query string) []*Item { //gets items from sources and s
 		}
 		item.Price = string(runes)
 	}
-	itemsC := getItems("https://citilink.ru", "https://www.citilink.ru/search/?text=" + text, params2)
+	itemsC := getItems("https://citilink.ru", "https://www.citilink.ru/search/?text="+text, params2)
 	var items []*Item
 	i := 0
 	for ; i < len(itemsW) && i < len(itemsC); i++ {
@@ -117,12 +117,11 @@ func sortItems(query string, items []*Item) {
 		})
 	case "rating":
 		sort.SliceStable(items, func(i, j int) bool {
-			if items[i].Rating == 0 {
-				return true
-			} else if items[j].Rating == 0 {
-				return false
+			if items[i].Rating == items[j].Rating {
+				return items[i].ReviewCount > items[j].ReviewCount
+			} else {
+				return items[i].Rating > items[j].Rating
 			}
-			return items[i].Rating/items[i].ReviewCount < items[j].Rating/items[j].ReviewCount
 		})
 	}
 }
@@ -244,7 +243,7 @@ func parseItem(node *html.Node, params [9][]pattern) *Item {
 	item.Price = getInfoFromItem(node, params[6])
 	item.Rating = getRatingFromItem(node, params[7])
 	if item.Rating != 0 {
-		item.ReviewCount, _ = strconv.Atoi(getInfoFromItem(node, params[8])) //TODO: change variable reviewsCount to int strconv.Atoi
+		item.ReviewCount, _ = strconv.Atoi(getInfoFromItem(node, params[8]))
 	}
 	return item
 }
@@ -286,5 +285,8 @@ func getRatingFromItem(node *html.Node, params []pattern) int {
 	}
 	floatStr := getTextFromNode(node)
 	rating, _ := strconv.ParseFloat(floatStr, 10)
+	if rating == 5.0 {
+		return int(rating)
+	}
 	return int(rating) + 1
 }
