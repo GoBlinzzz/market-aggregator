@@ -17,7 +17,8 @@ async function sendSearchRequest() {
         })
             .then((res) => {
                 if (res.status === 200) {
-                    app.innerHTML = catalogPageTemplate(res.body);
+                    app.innerHTML = headerTemplate();
+                    app.innerHTML += catalogPageTemplate(res.body);
                 }
             })
     }
