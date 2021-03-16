@@ -175,12 +175,18 @@
 
 .catalog__item-source-market {
     border-radius: 30px;
-    background: #FFCD00;
     width: fit-content;
     padding: 2%;
-    border: 2px solid #FFD940;
     font-size: 18px;
     transition: opacity 0.2s ease-out;
+}
+
+.catalog__item-source-market_wb {
+    background-color: #87418C;
+}
+
+.catalog__item-source-market_ctl {
+    background-color: #FAD24E;
 }
 
 .catalog__item-source-market:hover {
