@@ -97,13 +97,13 @@
         <div class="catalog__items-div">
             {{#each items}}
                 <div class="catalog__item-div">
-                    <div class="catalog__item-img-div">
+                    <div class="catalog__item-img-div" onclick="goLink('{{link}}')">
                         <img src="{{image}}" alt=""
                              class="catalog__item-img" draggable="false">
                     </div>
                     <div class="catalog__item-info-div">
                         <div class="catalog__item-price">{{price}}</div>
-                        <div class="catalog__item-title">{{title}}</div>
+                        <div class="catalog__item-title" onclick="goLink('{{link}}')">{{title}}</div>
                         <div class="catalog__item-reviews-div">
                             <div class="catalog__item-rating">
                                 {{> stars-assets}}
@@ -116,8 +116,8 @@
                         <div class="catalog__add-to-cart-div">
                             <img src="assets/add-to-cart.png" alt="" class="catalog__add-to-cart-img" draggable="false">
                         </div>
-                        <div class="catalog__item-source-market">
-                            Wildberries
+                        <div class="catalog__item-source-market catalog__item-source-market_{{sourceMarket}}" onclick="goLink('{{marketLink}}')">
+                            {{marketTitle}}
                         </div>
                     </div>
                 </div>

@@ -42,6 +42,16 @@ async function sendSearchRequest(how = '') {
                         if (!item.reviewCount) {
                             item.reviewCount = '0';
                         }
+                        switch (item.sourceMarket) {
+                            case 'wb':
+                                item.marketTitle = 'Wildberries';
+                                item.marketLink = 'https://www.wildberries.ru/';
+                                break;
+                            case 'ctl':
+                                item.marketTitle = 'Citilink';
+                                item.marketLink = 'https://citilink.ru/';
+                                break;
+                        }
                     })
                     catalogCtx.request = searchString;
 
