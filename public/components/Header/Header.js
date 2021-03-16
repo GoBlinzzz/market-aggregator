@@ -35,6 +35,14 @@ async function sendSearchRequest(how = '') {
                 searchRequestPending = false;
                 if (res.status === 200) {
                     let catalogCtx = res.body;
+                    catalogCtx.items.forEach(item => {
+                        if (!item.rating) {
+                            item.rating = '0';
+                        }
+                        if (!item.reviewCount) {
+                            item.reviewCount = '0';
+                        }
+                    })
                     catalogCtx.request = searchString;
 
                     const header = document.getElementsByClassName('header')

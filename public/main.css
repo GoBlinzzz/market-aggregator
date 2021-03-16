@@ -19,3 +19,9 @@ img {
     -o-user-select: none;
     user-select: none;
 }
+
+svg {
+    max-height: 100%;
+
+
+}
