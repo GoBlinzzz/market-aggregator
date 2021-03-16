@@ -14,9 +14,10 @@
                 Сортировать по:
             </div>
             <div class="catalog__sorting-params-div">
-                <div class="catalog__sorting-param-div">Популярности</div>
-                <div class="catalog__sorting-param-div">Рейтингу</div>
-                <div class="catalog__sorting-param-div">Цене</div>
+                <div class="catalog__sorting-param-div" onclick="sendSearchRequest()">Популярности</div>
+                <div class="catalog__sorting-param-div" onclick="sendSearchRequest('rating')">Рейтингу</div>
+                <div class="catalog__sorting-param-div" onclick="sendSearchRequest('aprice')">Цене ↑</div>
+                <div class="catalog__sorting-param-div" onclick="sendSearchRequest('dprice')">Цене ↓</div>
             </div>
         </div>
 
