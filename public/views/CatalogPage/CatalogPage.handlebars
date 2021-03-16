@@ -26,24 +26,29 @@
                 <div class="catalog__item-div">
                     <div class="catalog__item-img-div">
                         <img src="{{image}}" alt=""
-                             class="catalog__item-img">
+                             class="catalog__item-img" draggable="false">
                     </div>
                     <div class="catalog__item-info-div">
                         <div class="catalog__item-price">{{price}}</div>
                         <div class="catalog__item-title">{{title}}</div>
                         <div class="catalog__item-reviews-div">
                             <div class="catalog__item-rating">
-                                <img src="assets/star-full.png" alt="" class="catalog-item-rating-img">
-                                <img src="assets/star-full.png" alt="" class="catalog-item-rating-img">
-                                <img src="assets/star-full.png" alt="" class="catalog-item-rating-img">
-                                <img src="assets/star-half.png" alt="" class="catalog-item-rating-img">
-                                <img src="assets/star-empty.png" alt="" class="catalog-item-rating-img">
+                                <img src="assets/star-full.png" alt="" class="catalog-item-rating-img"
+                                     draggable="false">
+                                <img src="assets/star-full.png" alt="" class="catalog-item-rating-img"
+                                     draggable="false">
+                                <img src="assets/star-full.png" alt="" class="catalog-item-rating-img"
+                                     draggable="false">
+                                <img src="assets/star-half.png" alt="" class="catalog-item-rating-img"
+                                     draggable="false">
+                                <img src="assets/star-empty.png" alt="" class="catalog-item-rating-img"
+                                     draggable="false">
                                 <span class="catalog__item-review-count">{{reviewCount}}</span>
                             </div>
                         </div>
                     </div>
                     <div class="catalog__add-to-cart-div">
-                        <img src="assets/add-to-cart.png" alt="" class="catalog__add-to-cart-img">
+                        <img src="assets/add-to-cart.png" alt="" class="catalog__add-to-cart-img" draggable="false">
                     </div>
                 </div>
             {{/each}}
