@@ -58,4 +58,15 @@ var (
 		{{"div", "class", "ProductCardVerticalLayout ProductCardVertical__layout", 1}, {"div", "class", "ProductCardVerticalLayout__header", 1}, {"div", "class", "ProductCardVerticalLayout__wrapper-meta", 1}, {"div", "class", "ProductCardVerticalMeta ", 1}, {"div", "class", "ProductCardVerticalMeta__info", 1}, {"div", "class", "Tooltip ProductCardVerticalMeta__tooltip js--Tooltip  js--Tooltip_hover Tooltip_placement_top", 1}, {"a", "class", "  Link js--Link Link_type_default", 1}, {"div", "class", "ProductCardVerticalMeta__text IconWithCount js--IconWithCount", 1}},
 		{{"div", "class", "ProductCardVerticalLayout ProductCardVertical__layout", 1}, {"div", "class", "ProductCardVerticalLayout__header", 1}, {"div", "class", "ProductCardVerticalLayout__wrapper-meta", 1}, {"div", "class", "ProductCardVerticalMeta ", 1}, {"div", "class", "ProductCardVerticalMeta__info", 2}, {"div", "class", "Tooltip ProductCardVerticalMeta__tooltip js--Tooltip  js--Tooltip_hover Tooltip_placement_top", 1}, {"a", "class", "  Link js--Link Link_type_default", 1}},
 	}
+	params3 = [9][]pattern{ //dns tag structure
+		{{"div", "id", "__next", 1}, {"div", "class", "cpdin0-0 bLocwG", 1}, {"div", "class", "ta44lc-0 kctIKs", 1}, {"div", "class", "ekjyst-0 isOpRw", 1}, {"div", "class", "ekjyst-2 hapOnC", 1}, {"div", "id", "listing-container", 1}, {"ul", "class", "_1h4EpkX", 1}},
+		{{"li", "class", "_3uUsGGA", 1}},
+		{},
+		{{"div", "class", "AkWZIIC", 1}, {"a", "class", "_1RaAPF1", 1}},
+		{{"div", "class", "AkWZIIC", 1}, {"a", "class", "_1RaAPF1", 1}, {"img", "class", "_2PvCT7k", 1}},
+		{{"div", "class", "_39MI3A8", 1}, {"div", "class", "_2r9Xg_l", 1}, {"div", "class", "_2fFxlhy", 1}, {"a", "class", "_32Sm557", 1}},
+		{{"div", "class", "_39MI3A8", 1}, {"div", "class", "_20qWqlD", 1}, {"div", "class", "_3Fsz1sA _1xiGUPl", 1}, {"span", "class", "Q35hFri hlL-W8I", 1}},
+		{{"div", "class", "_39MI3A8", 1}, {"div", "class", "_2r9Xg_l", 1}, {"div", "class", "_14nj2BP", 1}, {"span", "class", "_2MOOgn5", 1}, {"span", "class", "tevqf5-0 cbJQML", 1}},
+		{{"div", "class", "_39MI3A8", 1}, {"div", "class", "_2r9Xg_l", 1}, {"div", "class", "_14nj2BP", 1}, {"span", "class", "_2MOOgn5", 1}, {"span", "", "", 1}, {"a", "class", "_1_F55f-", 1}},
+	}
 )
