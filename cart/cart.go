@@ -42,6 +42,18 @@ func GetCart(key string) []byte {
 	return items
 }
 
+func DeleteFromCart(key string, id int) {
+	carts := readCartsFromStorage()
+	for _, c := range carts {
+		if c.Id == key {
+			c.Items = append(c.Items[:id], c.Items[id + 1:]...)
+			writeCartsToStorage(carts)
+			return
+		}
+	}
+}
+
+
 func readCartsFromStorage() (carts []*Cart) {
 	jsonStorage, _ := os.Open("cart/cart.json")
 

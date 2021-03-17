@@ -58,6 +58,10 @@ func search(w http.ResponseWriter, r *http.Request) {
 func addToCart(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
+	if r.Method == "OPTIONS" {
+		return
+	}
+
 	decoder := json.NewDecoder(r.Body)
 	var newItem parser.Item
 	_ = decoder.Decode(&newItem)
@@ -78,17 +82,21 @@ func addToCart(w http.ResponseWriter, r *http.Request) {
 	cart.AddToCart(key,&newItem)
 }
 
-func getCart(w http.ResponseWriter, r *http.Request) {
+func cartApi(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-
 	var key string
-
 	for _, c := range r.Cookies() {
 		if c.Name == "cart_id" {
 			key = c.Value
 		}
 	}
-	_, _ = w.Write(cart.GetCart(key))
+	if r.Method == "GET" {
+		_, _ = w.Write(cart.GetCart(key))
+	} else if r.Method == "DELETE" {
+		cart.DeleteFromCart(key, r.URL.Query().Get("id"))
+	} else {
+		return
+	}
 }
 
 func main() {
@@ -96,7 +104,7 @@ func main() {
 
 	router.HandleFunc("/api/search", search).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/add-to-cart", addToCart).Methods("POST", "OPTIONS")
-	router.HandleFunc("/api/cart", getCart).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/cart", cartApi).Methods("GET", "DELETE", "OPTIONS")
 
 	spa := spaHandler{staticPath: "public", indexPath: "index.html"}
 
