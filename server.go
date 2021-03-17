@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
+	"market-backend/cart"
 	"market-backend/parser"
 	"net/http"
 	"os"
@@ -57,10 +58,9 @@ func search(w http.ResponseWriter, r *http.Request) {
 func addToCart(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	var itemsCart []byte
-	_,_ = r.Body.Read(itemsCart)
-	var newItem *parser.Item
-	_ = json.Unmarshal(itemsCart, newItem)
+	decoder := json.NewDecoder(r.Body)
+	var newItem parser.Item
+	_ = decoder.Decode(&newItem)
 	var key string
 
 	for _, c := range r.Cookies() {
@@ -75,7 +75,7 @@ func addToCart(w http.ResponseWriter, r *http.Request) {
 			Value: key,
 		})
 	}
-	//cart.addToCart(key,newItem)
+	cart.AddToCart(key,&newItem)
 }
 
 func getCart(w http.ResponseWriter, r *http.Request) {
@@ -88,14 +88,7 @@ func getCart(w http.ResponseWriter, r *http.Request) {
 			key = c.Value
 		}
 	}
-
-	//items := cart.getCart(key)
-	//if itemsJSON, err := json.Marshal(&parser.TemplateJSON{Count: len(items), Items: items}); err != nil {
-	//	w.WriteHeader(http.StatusInternalServerError)
-	//	return
-	//} else {
-	//	_, _ = w.Write(itemsJSON)
-	//}
+	_, _ = w.Write(cart.GetCart(key))
 }
 
 func main() {
