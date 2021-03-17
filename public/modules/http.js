@@ -4,7 +4,7 @@ export class HttpRequest {
     }
 
     async get(url = '', query = {}, headers = {}) {
-        return await this.#fetch({
+        return await this._fetch({
             url: url,
             query: query,
             headers: headers,
@@ -13,7 +13,7 @@ export class HttpRequest {
     }
 
     async post(url = '', body = {}, query = {}, headers = {'Content-Type': 'application/json'}) {
-        return await this.#fetch({
+        return await this._fetch({
             url: url,
             query: query,
             headers: headers,
@@ -23,7 +23,7 @@ export class HttpRequest {
     }
 
     async delete(url = '', query = {}, headers = {}) {
-        return await this.#fetch({
+        return await this._fetch({
             url: url,
             query: query,
             headers: headers,
@@ -31,7 +31,7 @@ export class HttpRequest {
         });
     }
 
-    async #fetch({url, query, body, headers, method}) {
+    async _fetch({url, query, body, headers, method}) {
         const encodeQueryString = (query) => {
             if (query === null || typeof query === 'undefined' || Object.keys(query).length === 0) {
                 return '';

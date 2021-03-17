@@ -176,6 +176,9 @@
 .catalog__item-source-market {
     border-radius: 30px;
     width: fit-content;
+    width: -moz-max-content;
+    width: intrinsic;
+    width: -webkit-max-content;
     padding: 2%;
     font-size: 20px;
     transition: opacity 0.2s ease-out;
