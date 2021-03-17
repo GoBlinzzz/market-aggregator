@@ -169,7 +169,7 @@ function deleteFromCart(id) {
 }
 
 async function sendDeleteFromCartRequest(itemPos) {
-    return await http.delete('/cart', {'id': itemPos});
+    return await http.post('/delete-from-cart', {},{'id': itemPos});
 }
 
 window.sendSearchRequest = sendSearchRequest;
