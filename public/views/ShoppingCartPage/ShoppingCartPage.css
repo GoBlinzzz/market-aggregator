@@ -104,6 +104,9 @@
 .shopping-cart__item-source-market {
     border-radius: 30px;
     width: fit-content;
+    width: -moz-max-content;
+    width: intrinsic;
+    width: -webkit-max-content;
     padding: 2%;
     font-size: 18px;
     transition: opacity 0.2s ease-out;
@@ -116,6 +119,11 @@
 
 .shopping-cart__item-source-market_ctl {
     background-color: #FAD24E;
+}
+
+.shopping-cart__item-source-market_eld {
+    background-color: #C44430;
+    color: white;
 }
 
 .shopping-cart__item-source-market:hover {
