@@ -14,16 +14,7 @@ func Search(text string, query string) []*Item { //gets items from sources and s
 	text = url.QueryEscape(text)
 
 	itemsW := getItems("https://wildberries.ru", "https://www.wildberries.ru/catalog/0/search.aspx?xsearch=true&search="+text, params1)
-	for _, item := range itemsW {
-		runes := []rune(item.Price)
-		for i := 0; i < len(runes); i++ {
-			if runes[i] == '₽' {
-				runes = runes[:i+1]
-				i = len(runes)
-			}
-		}
-		item.Price = string(runes)
-	}
+	shortenPriceWB(itemsW)
 	itemsC := getItems("https://citilink.ru", "https://www.citilink.ru/search/?text="+text, params2)
 	itemsE := getItems("https://www.eldorado.ru", "https://www.eldorado.ru/search/catalog.php?q="+text, params3)
 	var items []*Item
@@ -38,7 +29,6 @@ func Search(text string, query string) []*Item { //gets items from sources and s
 			items = append(items, itemsE[i])
 		}
 	}
-
 	convertPriceStringToInt(items)
 	sortItems(query, items)
 	return items
@@ -62,6 +52,19 @@ func convertPriceStringToInt(items []*Item) {
 	}
 }
 
+func shortenPriceWB(items []*Item) {
+	for _, item := range items {
+		runes := []rune(item.Price)
+		for i := 0; i < len(runes); i++ {
+			if runes[i] == '₽' {
+				runes = runes[:i+1]
+				i = len(runes)
+			}
+		}
+		item.Price = string(runes)
+	}
+}
+
 func sortItems(query string, items []*Item) {
 	switch query {
 	case "aprice":
@@ -75,8 +78,8 @@ func sortItems(query string, items []*Item) {
 	case "rating":
 		sort.SliceStable(items, func(i, j int) bool {
 			var (
-				a  = float32(items[i].Rating.Count)
-				b  = float32(items[j].Rating.Count)
+				a = float32(items[i].Rating.Count)
+				b = float32(items[j].Rating.Count)
 			)
 			if items[i].Rating.WithHalf {
 				a += 0.5
@@ -271,7 +274,7 @@ func getRatingFromItem(node *html.Node, params []pattern) *Stars {
 	}
 	floatStr := getTextFromNode(node)
 	rating, _ := strconv.ParseFloat(floatStr, 10)
-	if rating - float64(int(rating)) >= 0.5 {
+	if rating-float64(int(rating)) >= 0.5 {
 		return &Stars{Count: int(rating), WithHalf: true}
 	}
 	return &Stars{Count: int(rating), WithHalf: false}
