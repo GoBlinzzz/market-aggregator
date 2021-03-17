@@ -25,7 +25,7 @@ func Search(text string, query string) []*Item { //gets items from sources and s
 		item.Price = string(runes)
 	}
 	itemsC := getItems("https://citilink.ru", "https://www.citilink.ru/search/?text="+text, params2)
-	itemsE := getItems("https://www.eldorado.ru/", "https://www.eldorado.ru/search/catalog.php?q="+text, params3)
+	itemsE := getItems("https://www.eldorado.ru", "https://www.eldorado.ru/search/catalog.php?q="+text, params3)
 	var items []*Item
 	for i := 0; i < len(itemsW) || i < len(itemsC) || i < len(itemsE); i++ {
 		if i < len(itemsW) {
