@@ -16,7 +16,13 @@ func AddToCart(key string, newItem *parser.Item) {
 	carts := readCartsFromStorage()
 	for _, c := range carts {
 		if c.Id == key {
+			for _, i := range c.Items {
+				if i.Link == newItem.Link {
+					return
+				}
+			}
 			c.Items = append(c.Items,newItem)
+			writeCartsToStorage(carts)
 			return
 		}
 	}
@@ -37,7 +43,7 @@ func GetCart(key string) []byte {
 }
 
 func readCartsFromStorage() (carts []*Cart) {
-	jsonStorage, _ := os.Open("cart.json")
+	jsonStorage, _ := os.Open("cart/cart.json")
 
 	defer jsonStorage.Close()
 
@@ -50,5 +56,5 @@ func readCartsFromStorage() (carts []*Cart) {
 func writeCartsToStorage(carts []*Cart) {
 	data, _ := json.Marshal(carts)
 
-	_ = ioutil.WriteFile("cart.json", data, 0644)
+	_ = ioutil.WriteFile("cart/cart.json", data, 0644)
 }
