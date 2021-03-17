@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"time"
 )
 
@@ -93,7 +94,8 @@ func cartApi(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		_, _ = w.Write(cart.GetCart(key))
 	} else if r.Method == "DELETE" {
-		cart.DeleteFromCart(key, r.URL.Query().Get("id"))
+		id, _ := strconv.Atoi(r.URL.Query().Get("id"))
+		cart.DeleteFromCart(key, id)
 	} else {
 		return
 	}
