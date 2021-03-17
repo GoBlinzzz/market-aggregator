@@ -157,5 +157,21 @@ async function sendCartRequest() {
     return await http.get('/cart');
 }
 
+function deleteFromCart(id) {
+    const elem = document.getElementById(id);
+    const itemPos = Array.from(document.getElementsByClassName('shopping-cart__item-div')).indexOf(elem);
+
+    sendDeleteFromCartRequest(itemPos).then((res) => {
+        if (res.status === 200) {
+            shoppingCartButton.click();
+        }
+    });
+}
+
+async function sendDeleteFromCartRequest(itemPos) {
+    return await http.delete('/cart', {'id': itemPos});
+}
+
 window.sendSearchRequest = sendSearchRequest;
 window.sendAddToCartRequest = sendAddToCartRequest;
+window.deleteFromCart = deleteFromCart;

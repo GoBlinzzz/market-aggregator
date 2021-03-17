@@ -57,6 +57,7 @@
 .shopping-cart__item-img-div {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 20%;
 }
 .shopping-cart__item-img {
@@ -104,6 +105,9 @@
 .shopping-cart__item-source-market {
     border-radius: 30px;
     width: fit-content;
+    width: -moz-max-content;
+    width: intrinsic;
+    width: -webkit-max-content;
     padding: 2%;
     font-size: 18px;
     transition: opacity 0.2s ease-out;
@@ -118,6 +122,11 @@
     background-color: #FAD24E;
 }
 
+.shopping-cart__item-source-market_eld {
+    background-color: #C44430;
+    color: white;
+}
+
 .shopping-cart__item-source-market:hover {
     cursor: pointer;
     opacity: 0.8;
@@ -128,10 +137,13 @@
     flex-direction: column;
     justify-content: flex-end;
     width: 5%;
+}
+
+.shopping-cart__remove-from-cart-img {
     transition: opacity 0.2s ease-out;
 }
 
-.shopping-cart__remove-from-cart-div:hover {
+.shopping-cart__remove-from-cart-img:hover {
     cursor: pointer;
     opacity: 0.6;
 }
