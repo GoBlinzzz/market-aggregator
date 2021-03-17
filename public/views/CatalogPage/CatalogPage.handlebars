@@ -20,7 +20,7 @@
             <use xlink:href="#stars-all-star" fill="#9b9b9b" />
         </symbol>
 
-        <symbol id="stars-0-5-star" viewBox="0 0 102 18">
+        <symbol id="stars-0-1-star" viewBox="0 0 102 18">
             <use xlink:href="#stars-0-0-star" />
             <use xlink:href="#stars-half-star" />
         </symbol>
@@ -30,7 +30,7 @@
             <use xlink:href="#stars-full-star" fill="#e9ba26" />
         </symbol>
 
-        <symbol id="stars-1-5-star" viewBox="0 0 102 18">
+        <symbol id="stars-1-1-star" viewBox="0 0 102 18">
             <use xlink:href="#stars-1-0-star" />
             <use xlink:href="#stars-half-star" transform="translate(21)" />
         </symbol>
@@ -40,7 +40,7 @@
             <use xlink:href="#stars-full-star" fill="#e9ba26" transform="translate(21)" />
         </symbol>
 
-        <symbol id="stars-2-5-star" viewBox="0 0 102 18">
+        <symbol id="stars-2-1-star" viewBox="0 0 102 18">
             <use xlink:href="#stars-2-0-star" />
             <use xlink:href="#stars-half-star" transform="translate(42)" />
         </symbol>
@@ -50,7 +50,7 @@
             <use xlink:href="#stars-full-star" fill="#e9ba26" transform="translate(42)" />
         </symbol>
 
-        <symbol id="stars-3-5-star" viewBox="0 0 102 18">
+        <symbol id="stars-3-1-star" viewBox="0 0 102 18">
             <use xlink:href="#stars-3-0-star" />
             <use xlink:href="#stars-half-star" transform="translate(63)" />
         </symbol>
@@ -60,7 +60,7 @@
             <use xlink:href="#stars-full-star" fill="#e9ba26" transform="translate(63)" />
         </symbol>
 
-        <symbol id="stars-4-5-star" viewBox="0 0 102 18">
+        <symbol id="stars-4-1-star" viewBox="0 0 102 18">
             <use xlink:href="#stars-4-0-star" />
             <use xlink:href="#stars-half-star" transform="translate(84)" />
         </symbol>
@@ -107,9 +107,11 @@
                         <div class="catalog__item-reviews-div">
                             <div class="catalog__item-rating">
                                 {{> stars-assets}}
+                                {{#with rating}}
                                 <svg class="catalog__item-rating-icon">
-                                    <use xlink:href="#stars-{{rating}}-0-star">
+                                    <use xlink:href="#stars-{{count}}-{{withHalf}}-star">
                                 </svg>
+                                {{/with}}
                                 <span class="catalog__item-review-count" onclick="goLink('{{reviewLink}}')">({{reviewCount}})</span>
                             </div>
                         </div>

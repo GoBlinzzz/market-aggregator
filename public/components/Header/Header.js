@@ -55,6 +55,13 @@ async function sendSearchRequest(how = '') {
                 if (res.status === 200) {
                     let catalogCtx = res.body;
                     catalogCtx.items.forEach(item => {
+                        if (item.rating === null) {
+                            item.rating = {
+                                count: 0,
+                                withHalf: false
+                            }
+                        }
+                        item.rating.withHalf = Number(item.rating.withHalf);
                         switch (item.sourceMarket) {
                             case 'wb':
                                 item.marketTitle = 'Wildberries';
