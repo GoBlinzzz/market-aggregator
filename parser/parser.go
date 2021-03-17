@@ -2,6 +2,7 @@ package parser
 
 import (
 	"golang.org/x/net/html"
+	"math"
 	"net/http"
 	"net/url"
 	"sort"
@@ -24,18 +25,20 @@ func Search(text string, query string) []*Item { //gets items from sources and s
 		item.Price = string(runes)
 	}
 	itemsC := getItems("https://citilink.ru", "https://www.citilink.ru/search/?text="+text, params2)
+	itemsE := getItems("https://www.eldorado.ru/", "https://www.eldorado.ru/search/catalog.php?q="+text, params3)
 	var items []*Item
-	i := 0
-	for ; i < len(itemsW) && i < len(itemsC); i++ {
-		items = append(items, itemsW[i])
-		items = append(items, itemsC[i])
+	for i := 0; i < len(itemsW) || i < len(itemsC) || i < len(itemsE); i++ {
+		if i < len(itemsW) {
+			items = append(items, itemsW[i])
+		}
+		if i < len(itemsC) {
+			items = append(items, itemsC[i])
+		}
+		if i < len(itemsE) {
+			items = append(items, itemsE[i])
+		}
 	}
-	for ; i < len(itemsW); i++ {
-		items = append(items, itemsW[i])
-	}
-	for ; i < len(itemsC); i++ {
-		items = append(items, itemsC[i])
-	}
+
 	convertPriceStringToInt(items)
 	sortItems(query, items)
 	return items
@@ -43,14 +46,19 @@ func Search(text string, query string) []*Item { //gets items from sources and s
 
 func convertPriceStringToInt(items []*Item) {
 	for _, item := range items {
-		runes := []byte(item.Price)
-		strInt := 0
-		for _, r := range runes {
-			if r >= '0' && r <= '9' {
-				strInt = 10*strInt + int(r) - '0'
+		if item.Price == "" {
+			item.Price = "Нет в наличии"
+			item.intPrice = math.MaxInt16
+		} else {
+			runes := []byte(item.Price)
+			strInt := 0
+			for _, r := range runes {
+				if r >= '0' && r <= '9' {
+					strInt = 10*strInt + int(r) - '0'
+				}
 			}
+			item.intPrice = strInt
 		}
-		item.intPrice = strInt
 	}
 }
 
@@ -66,21 +74,20 @@ func sortItems(query string, items []*Item) {
 		})
 	case "rating":
 		sort.SliceStable(items, func(i, j int) bool {
-			if items[i].Rating == items[j].Rating {
-				return items[i].ReviewCount > items[j].ReviewCount
-			} else {
-				var (
-					a  = float32(items[i].Rating.Count)
-					b  = float32(items[j].Rating.Count)
-				)
-				if items[i].Rating.WithHalf {
-					a += 0.5
-				}
-				if items[j].Rating.WithHalf {
-					b += 0.5
-				}
-				return a > b
+			var (
+				a  = float32(items[i].Rating.Count)
+				b  = float32(items[j].Rating.Count)
+			)
+			if items[i].Rating.WithHalf {
+				a += 0.5
 			}
+			if items[j].Rating.WithHalf {
+				b += 0.5
+			}
+			if a == b {
+				return items[i].ReviewCount > items[j].ReviewCount
+			}
+			return a > b
 		})
 	}
 }
@@ -150,6 +157,9 @@ func searchInNode(node *html.Node, params *pattern) *html.Node { //recursively s
 }
 
 func getTextFromNode(node *html.Node) (text string) {
+	if node == nil {
+		return
+	}
 	if node.Type == html.TextNode {
 		text += strings.TrimSpace(node.Data)
 	}
@@ -181,6 +191,8 @@ func getItems(host, link string, params [9][]pattern) (items []*Item) { //parses
 			item.SourceMarket = "wb"
 		case "https://citilink.ru":
 			item.SourceMarket = "ctl"
+		case "https://www.eldorado.ru":
+			item.SourceMarket = "eld"
 		}
 		item.Link = host + item.Link
 		item.ImageSrc = strings.TrimSpace(item.ImageSrc)
@@ -204,7 +216,13 @@ func parseItem(node *html.Node, params [9][]pattern) *Item {
 	if item.Rating == nil {
 		return item
 	}
-	item.ReviewCount, _ = strconv.Atoi(getInfoFromItem(node, params[8]))
+	reviewsAmount := getInfoFromItem(node, params[8])
+	for i := len(reviewsAmount) - 1; i > 0; i-- {
+		if reviewsAmount[i] < '0' || reviewsAmount[i] > '9' {
+			reviewsAmount = reviewsAmount[:i]
+		}
+	}
+	item.ReviewCount, _ = strconv.Atoi(reviewsAmount)
 	return item
 }
 
@@ -238,10 +256,18 @@ func getRatingFromItem(node *html.Node, params []pattern) *Stars {
 		node = searchInNode(node, &p)
 	}
 	if node == nil {
-		return nil
+		return &Stars{Count: 0, WithHalf: false}
 	} else if node.FirstChild == nil {
 		class := getAttr(node, "class")
 		return &Stars{Count: int(class[len(class)-1]) - '0', WithHalf: false}
+	} else if getAttr(node, "class") == "tevqf5-0 cbJQML" {
+		count := 0
+		for child := node.FirstChild; child != nil; child = child.NextSibling {
+			if strings.HasSuffix(getAttr(child, "class"), "r") {
+				count++
+			}
+		}
+		return &Stars{Count: count, WithHalf: false}
 	}
 	floatStr := getTextFromNode(node)
 	rating, _ := strconv.ParseFloat(floatStr, 10)
