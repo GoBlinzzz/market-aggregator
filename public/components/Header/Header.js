@@ -47,9 +47,11 @@ async function sendSearchRequest(how = '') {
         .item(0).value;
     if (!window.searchRequestPending && searchString !== '') {
         window.searchRequestPending = true;
-        await http.get({
-            'url': '/search' + '?text=' + searchString + '&how=' + how
-        })
+        const query = {
+            'text': searchString,
+            'how': how
+        }
+        await http.get('/search', query)
             .then((res) => {
                 if (res.status === 200) {
                     let catalogCtx = res.body;
