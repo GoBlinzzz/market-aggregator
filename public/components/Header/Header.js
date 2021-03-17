@@ -74,6 +74,10 @@ async function sendSearchRequest(how = '') {
                                 item.marketLink = 'https://citilink.ru/';
                                 item.reviewLink = item.link + 'otzyvy';
                                 break;
+                            case 'eld':
+                                item.marketTitle = 'Eldorado';
+                                item.marketLink = 'https://www.eldorado.ru/';
+                                item.reviewLink = item.link + '?show=response#customTabAnchor';
                         }
                     })
                     catalogCtx.request = searchString;

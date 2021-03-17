@@ -190,6 +190,11 @@
     background-color: #FAD24E;
 }
 
+.catalog__item-source-market_eld {
+    background-color: #C44430;
+    color: white;
+}
+
 .catalog__item-source-market:hover {
     cursor: pointer;
     opacity: 0.8;
