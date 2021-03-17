@@ -15,7 +15,7 @@ type Item struct {
 	ImageSrc     string `json:"image"`
 	Name         string `json:"title"`
 	Price        string `json:"price"`
-	Rating       int    `json:"rating"`
+	Rating       *Stars `json:"rating"`
 	ReviewCount  int    `json:"reviewCount"`
 	intPrice     int
 }
@@ -23,6 +23,11 @@ type Item struct {
 type pattern struct {
 	tag, key, value string
 	num             int
+}
+
+type Stars struct {
+	Count int
+	WithHalf bool
 }
 
 type TemplateJSON struct {
@@ -120,7 +125,17 @@ func sortItems(query string, items []*Item) {
 			if items[i].Rating == items[j].Rating {
 				return items[i].ReviewCount > items[j].ReviewCount
 			} else {
-				return items[i].Rating > items[j].Rating
+				var (
+					a  = float32(items[i].Rating.Count)
+					b  = float32(items[j].Rating.Count)
+				)
+				if items[i].Rating.WithHalf {
+					a += 0.5
+				}
+				if items[j].Rating.WithHalf {
+					b += 0.5
+				}
+				return a > b
 			}
 		})
 	}
@@ -242,9 +257,10 @@ func parseItem(node *html.Node, params [9][]pattern) *Item {
 	item.Name = getInfoFromItem(node, params[5])
 	item.Price = getInfoFromItem(node, params[6])
 	item.Rating = getRatingFromItem(node, params[7])
-	if item.Rating != 0 {
-		item.ReviewCount, _ = strconv.Atoi(getInfoFromItem(node, params[8]))
+	if item.Rating.Count == 0 && !item.Rating.WithHalf {
+		return item
 	}
+	item.ReviewCount, _ = strconv.Atoi(getInfoFromItem(node, params[8]))
 	return item
 }
 
@@ -273,20 +289,20 @@ func getInfoFromItem(node *html.Node, params []pattern) string {
 	return getTextFromNode(node)
 }
 
-func getRatingFromItem(node *html.Node, params []pattern) int {
+func getRatingFromItem(node *html.Node, params []pattern) *Stars {
 	for _, p := range params {
 		node = searchInNode(node, &p)
 	}
 	if node == nil {
-		return 0
+		return nil
 	} else if node.FirstChild == nil {
 		class := getAttr(node, "class")
-		return int(class[len(class)-1]) - '0'
+		return &Stars{Count: int(class[len(class)-1]) - '0', WithHalf: false}
 	}
 	floatStr := getTextFromNode(node)
 	rating, _ := strconv.ParseFloat(floatStr, 10)
-	if rating == 5.0 {
-		return int(rating)
+	if rating - float64(int(rating)) >= 0.5 {
+		return &Stars{Count: int(rating), WithHalf: true}
 	}
-	return int(rating) + 1
+	return &Stars{Count: int(rating), WithHalf: false}
 }
