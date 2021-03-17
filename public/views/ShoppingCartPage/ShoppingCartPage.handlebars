@@ -1,0 +1,31 @@
+<div class="shopping-cart">
+    <div class="shopping-cart__content">
+        <div class="shopping-cart__title-div">
+            <div class="shopping-cart__title-text">
+                7 Товаров
+            </div>
+        </div>
+        <div class="shopping-cart__items-div">
+            {{#each items}}
+                <div class="shopping-cart__item-div">
+                    <div class="shopping-cart__item-img-div" onclick="goLink('{{link}}')">
+                        <img src="{{image}}" alt=""
+                             class="shopping-cart__item-img" draggable="false">
+                    </div>
+                    <div class="shopping-cart__item-info-div">
+                        <div class="shopping-cart__item-description-div">
+                            <div class="shopping-cart__item-title" onclick="goLink('{{link}}')">{{title}}</div>
+                        </div>
+                        <div class="shopping-cart__item-source-market shopping-cart__item-source-market_{{sourceMarket}}" onclick="goLink('{{marketLink}}')">
+                            {{marketTitle}}
+                        </div>
+                    </div>
+                    <div class="shopping-cart__item-price">{{price}}</div>
+                    <div class="shopping-cart__remove-from-cart-div">
+                        <img src="assets/delete.png" alt="" class="shopping-cart__remove-from-cart-img">
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+.shopping-cart {
+    width: auto;
+    height: auto;
+    border-radius: 30px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.shopping-cart__content {
+    height: auto;
+    display: flex;
+    width: 60%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.shopping-cart__title-div {
+    display: flex;
+    width: 90%;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 2% 2%;
+}
+
+.shopping-cart__title-text {
+    font-size: 36px;
+    font-weight: bold;
+    margin-right: 1%;
+}
+
+
+.shopping-cart__items-div {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    align-items: center;
+    height: auto;
+    min-height: 80vh;
+    margin: 1% 0;
+}
+
+.shopping-cart__item-div {
+    display: flex;
+    justify-content: space-evenly;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 20px 0 rgba(31, 38, 135, 0.4);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 70%;
+    height: 10vw;
+    margin: 1%;
+    padding: 3%;
+    transition: transform 0.2s ease-out;
+}
+
+.shopping-cart__item-img-div {
+    display: flex;
+    justify-content: center;
+    width: 20%;
+}
+.shopping-cart__item-img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.shopping-cart__item-img:hover {
+    cursor: pointer;
+}
+
+.shopping-cart__item-info-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%;
+    height: 100%;
+    margin: 0 1% 0 2%;
+}
+
+.shopping-cart__item-price {
+    font-size: 26px;
+    font-weight: bold;
+    width: 15%;
+}
+
+.shopping-cart__item-description-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: ;
+}
+
+.shopping-cart__item-title {
+    font-size: 24px;
+    transition: all 0.2s ease-out;
+}
+
+.shopping-cart__item-title:hover {
+    color: #624AD8;
+    cursor: pointer;
+}
+
+
+.shopping-cart__item-source-market {
+    border-radius: 30px;
+    width: fit-content;
+    padding: 2%;
+    font-size: 18px;
+    transition: opacity 0.2s ease-out;
+}
+
+.shopping-cart__item-source-market_wb {
+    background-color: #87418C;
+    color: white;
+}
+
+.shopping-cart__item-source-market_ctl {
+    background-color: #FAD24E;
+}
+
+.shopping-cart__item-source-market:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.shopping-cart__remove-from-cart-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 5%;
+    transition: opacity 0.2s ease-out;
+}
+
+.shopping-cart__remove-from-cart-div:hover {
+    cursor: pointer;
+    opacity: 0.6;
+}

@@ -9,18 +9,37 @@ const submitButton = document.getElementsByClassName('header__search-button')
 const logo = document.getElementsByClassName('header__logo-content').item(0);
 const searchInput = document.getElementsByClassName('header__search-input')
     .item(0);
+const shoppingCartButton = document.getElementsByClassName('header__shop-cart-div').item(0);
 
 const mainPageTemplate = Handlebars.templates['views/MainPage/MainPage'];
 const catalogPageTemplate = Handlebars.templates['views/CatalogPage/CatalogPage'];
+const shoppingCartPageTemplate = Handlebars.templates['views/ShoppingCartPage/ShoppingCartPage'];
 
 window.searchRequestPending = false;
 
 submitButton.addEventListener('click', sendSearchRequest);
+
 logo.addEventListener('click', goMainPage);
+
 searchInput.addEventListener('keyup', (event) => {
     if (event.keyCode === 13) {
         submitButton.click();
     }
+});
+
+shoppingCartButton.addEventListener('click', () => {
+    const ctx = {
+        items: [
+            {
+                image: 'https://items.s1.citilink.ru/1380949_v01_b.jpg',
+                title: 'Смартфон XIAOMI Redmi Note 9 Pro 6/128Gb, серый',
+                sourceMarket: 'ctl',
+                marketTitle: 'Citilink',
+                price: '44000$'
+            }
+        ]
+    };
+    goShoppingCartPage(ctx);
 });
 
 async function sendSearchRequest(how = '') {
@@ -51,12 +70,7 @@ async function sendSearchRequest(how = '') {
                     })
                     catalogCtx.request = searchString;
 
-                    const header = document.getElementsByClassName('header')
-                        .item(0);
-                    header.nextElementSibling.remove();
-
-                    const content = catalogPageTemplate(res.body);
-                    header.insertAdjacentHTML('afterend', content);
+                    goCatalogPage(catalogCtx);
                 }
             });
     }
@@ -67,6 +81,24 @@ function goMainPage() {
     header.nextElementSibling.remove();
 
     const content = mainPageTemplate();
+    header.insertAdjacentHTML('afterend', content);
+}
+
+function goCatalogPage(ctx) {
+    const header = document.getElementsByClassName('header')
+        .item(0);
+    header.nextElementSibling.remove();
+
+    const content = catalogPageTemplate(ctx);
+    header.insertAdjacentHTML('afterend', content);
+}
+
+function goShoppingCartPage(ctx) {
+    const header = document.getElementsByClassName('header')
+        .item(0);
+    header.nextElementSibling.remove();
+
+    const content = shoppingCartPageTemplate(ctx);
     header.insertAdjacentHTML('afterend', content);
 }
 
