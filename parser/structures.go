@@ -17,8 +17,8 @@ type pattern struct {
 }
 
 type Stars struct {
-	Count int
-	WithHalf bool
+	Count    int  `json:"count"`
+	WithHalf bool `json:"withHalf"`
 }
 
 type TemplateJSON struct {
