@@ -8,15 +8,35 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 func Search(text string, query string) []*Item { //gets items from sources and sorts them by query params
 	text = url.QueryEscape(text)
 
-	itemsW := getItems("https://wildberries.ru", "https://www.wildberries.ru/catalog/0/search.aspx?xsearch=true&search="+text, params1)
+
+	var wg sync.WaitGroup
+
+	wg.Add(3)
+
+	itemsW := make([]*Item, 0)
+	itemsC := make([]*Item, 0)
+	itemsE := make([]*Item, 0)
+
+	go func() {
+		itemsW = getItems("https://wildberries.ru", "https://www.wildberries.ru/catalog/0/search.aspx?xsearch=true&search="+text, params1, &wg)
+	}()
+	go func() {
+		itemsC = getItems("https://citilink.ru", "https://www.citilink.ru/search/?text="+text, params2, &wg)
+	}()
+	go func() {
+		itemsE = getItems("https://www.eldorado.ru", "https://www.eldorado.ru/search/catalog.php?q="+text, params3, &wg)
+	}()
+
+	wg.Wait()
+
 	shortenPriceWB(itemsW)
-	itemsC := getItems("https://citilink.ru", "https://www.citilink.ru/search/?text="+text, params2)
-	itemsE := getItems("https://www.eldorado.ru", "https://www.eldorado.ru/search/catalog.php?q="+text, params3)
+
 	var items []*Item
 	for i := 0; i < len(itemsW) || i < len(itemsC) || i < len(itemsE); i++ {
 		if i < len(itemsW) {
@@ -172,7 +192,9 @@ func getTextFromNode(node *html.Node) (text string) {
 	return
 }
 
-func getItems(host, link string, params [9][]pattern) (items []*Item) { //parses website by searching items of products
+func getItems(host, link string, params [9][]pattern, wg *sync.WaitGroup) (items []*Item) { //parses website by searching items of products
+	defer wg.Done()
+
 	if node, status := getHTMLNode(link); !status {
 		return nil
 	} else {
