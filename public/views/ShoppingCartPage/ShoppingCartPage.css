@@ -57,6 +57,7 @@
 .shopping-cart__item-img-div {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 20%;
 }
 .shopping-cart__item-img {
