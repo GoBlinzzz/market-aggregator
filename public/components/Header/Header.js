@@ -45,13 +45,12 @@ shoppingCartButton.addEventListener('click', () => {
 async function sendSearchRequest(how = '') {
     searchString = document.getElementsByClassName('header__search-input')
         .item(0).value;
-    if (!searchRequestPending && searchString !== '') {
-        searchRequestPending = true;
-        http.get({
+    if (!window.searchRequestPending && searchString !== '') {
+        window.searchRequestPending = true;
+        await http.get({
             'url': '/search' + '?text=' + searchString + '&how=' + how
         })
             .then((res) => {
-                searchRequestPending = false;
                 if (res.status === 200) {
                     let catalogCtx = res.body;
                     catalogCtx.items.forEach(item => {
@@ -80,6 +79,7 @@ async function sendSearchRequest(how = '') {
                     goCatalogPage(catalogCtx);
                 }
             });
+        window.searchRequestPending = false;
     }
 }
 
