@@ -116,11 +116,9 @@
                             </div>
                         </div>
                         <div class="catalog__add-to-cart-div">
-                            <img src="assets/add-to-cart.png" alt="" class="catalog__add-to-cart-img" draggable="false">
+                            <img src="assets/add-to-cart.png" alt="" class="catalog__add-to-cart-img" draggable="false" id="{{link}}" onclick="sendAddToCartRequest('{{link}}')">
                         </div>
-                        <div class="catalog__item-source-market catalog__item-source-market_{{sourceMarket}}" onclick="goLink('{{marketLink}}')">
-                            {{marketTitle}}
-                        </div>
+                        <div class="catalog__item-source-market catalog__item-source-market_{{sourceMarket}}" onclick="goLink('{{marketLink}}')">{{marketTitle}}</div>
                     </div>
                 </div>
             {{/each}}

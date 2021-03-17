@@ -28,18 +28,31 @@ searchInput.addEventListener('keyup', (event) => {
 });
 
 shoppingCartButton.addEventListener('click', () => {
-    const ctx = {
-        items: [
-            {
-                image: 'https://items.s1.citilink.ru/1380949_v01_b.jpg',
-                title: 'Смартфон XIAOMI Redmi Note 9 Pro 6/128Gb, серый',
-                sourceMarket: 'ctl',
-                marketTitle: 'Citilink',
-                price: '44000$'
-            }
-        ]
-    };
-    goShoppingCartPage(ctx);
+    let ctx = {};
+    sendCartRequest().then((res) => {
+        if (res.status == 200) {
+            ctx = res.body;
+            ctx.items.forEach(item => {
+                switch (item.sourceMarket) {
+                    case 'wb':
+                        item.marketTitle = 'Wildberries';
+                        item.marketLink = 'https://www.wildberries.ru/';
+                        item.reviewLink = item.link;
+                        break;
+                    case 'ctl':
+                        item.marketTitle = 'Citilink';
+                        item.marketLink = 'https://citilink.ru/';
+                        item.reviewLink = item.link + 'otzyvy';
+                        break;
+                    case 'eld':
+                        item.marketTitle = 'Eldorado';
+                        item.marketLink = 'https://www.eldorado.ru/';
+                        item.reviewLink = item.link + '?show=response#customTabAnchor';
+                }
+            });
+        }
+        goShoppingCartPage(ctx);
+    });
 });
 
 async function sendSearchRequest(how = '') {
@@ -79,7 +92,7 @@ async function sendSearchRequest(how = '') {
                                 item.marketLink = 'https://www.eldorado.ru/';
                                 item.reviewLink = item.link + '?show=response#customTabAnchor';
                         }
-                    })
+                    });
                     catalogCtx.request = searchString;
 
                     goCatalogPage(catalogCtx);
@@ -115,4 +128,34 @@ function goShoppingCartPage(ctx) {
     header.insertAdjacentHTML('afterend', content);
 }
 
+async function sendAddToCartRequest(id) {
+    const elem = document.getElementById(id).parentElement.parentElement.parentElement;
+    const item = {
+        link: id,
+        sourceMarket: elem.getElementsByClassName('catalog__item-source-market').item(0).textContent,
+        image: elem.getElementsByClassName('catalog__item-img').item(0).getAttribute('src'),
+        title: elem.getElementsByClassName('catalog__item-title').item(0).textContent,
+        price: elem.getElementsByClassName('catalog__item-price').item(0).textContent
+    };
+
+    switch (item.sourceMarket) {
+        case 'Citilink':
+            item.sourceMarket = 'ctl';
+            break;
+        case 'Eldorado':
+            item.sourceMarket = 'eld';
+            break;
+        case 'Wildberries':
+            item.sourceMarket = 'wb';
+            break;
+    }
+
+    http.post('/add-to-cart', JSON.stringify(item));
+}
+
+async function sendCartRequest() {
+    return await http.get('/cart');
+}
+
 window.sendSearchRequest = sendSearchRequest;
+window.sendAddToCartRequest = sendAddToCartRequest;
