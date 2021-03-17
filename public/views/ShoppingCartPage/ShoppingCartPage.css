@@ -136,10 +136,13 @@
     flex-direction: column;
     justify-content: flex-end;
     width: 5%;
+}
+
+.shopping-cart__remove-from-cart-img {
     transition: opacity 0.2s ease-out;
 }
 
-.shopping-cart__remove-from-cart-div:hover {
+.shopping-cart__remove-from-cart-img:hover {
     cursor: pointer;
     opacity: 0.6;
 }
