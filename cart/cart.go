@@ -8,7 +8,7 @@ import (
 )
 
 type Cart struct {
-	Id string `json:"id"`
+	Id    string         `json:"id"`
 	Items []*parser.Item `json:"items"`
 }
 
@@ -21,7 +21,7 @@ func AddToCart(key string, newItem *parser.Item) {
 					return
 				}
 			}
-			c.Items = append(c.Items,newItem)
+			c.Items = append(c.Items, newItem)
 			writeCartsToStorage(carts)
 			return
 		}
@@ -46,13 +46,12 @@ func DeleteFromCart(key string, id int) {
 	carts := readCartsFromStorage()
 	for _, c := range carts {
 		if c.Id == key {
-			c.Items = append(c.Items[:id], c.Items[id + 1:]...)
+			c.Items = append(c.Items[:id], c.Items[id+1:]...)
 			writeCartsToStorage(carts)
 			return
 		}
 	}
 }
-
 
 func readCartsFromStorage() (carts []*Cart) {
 	jsonStorage, _ := os.Open("cart/cart.json")
