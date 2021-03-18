@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"time"
 )
 
 func Search(text string, query string) []*Item { //gets items from sources and sorts them by query params
@@ -129,7 +128,7 @@ func getHTMLNode(link string) (*html.Node, bool) { //request to url, if it's OK 
 	}
 
 	client := http.Client{
-		Timeout: 10000 * time.Millisecond,
+		//Timeout: 10000 * time.Millisecond,
 	}
 
 	if response, err := client.Do(req); err != nil {
