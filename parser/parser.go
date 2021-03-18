@@ -129,7 +129,7 @@ func getHTMLNode(link string) (*html.Node, bool) { //request to url, if it's OK 
 	}
 
 	client := http.Client{
-		Timeout: 3500 * time.Millisecond,
+		Timeout: 5000 * time.Millisecond,
 	}
 
 	if response, err := client.Do(req); err != nil {
