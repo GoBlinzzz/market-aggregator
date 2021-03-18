@@ -32,24 +32,28 @@ shoppingCartButton.addEventListener('click', () => {
     sendCartRequest().then((res) => {
         if (res.status == 200) {
             ctx = res.body;
-            ctx.items.forEach(item => {
-                switch (item.sourceMarket) {
-                    case 'wb':
-                        item.marketTitle = 'Wildberries';
-                        item.marketLink = 'https://www.wildberries.ru/';
-                        item.reviewLink = item.link;
-                        break;
-                    case 'ctl':
-                        item.marketTitle = 'Citilink';
-                        item.marketLink = 'https://citilink.ru/';
-                        item.reviewLink = item.link + 'otzyvy';
-                        break;
-                    case 'eld':
-                        item.marketTitle = 'Eldorado';
-                        item.marketLink = 'https://www.eldorado.ru/';
-                        item.reviewLink = item.link + '?show=response#customTabAnchor';
-                }
-            });
+            if (ctx.items !== null && ctx.items.length !== 0) {
+                ctx.items.forEach(item => {
+                    switch (item.sourceMarket) {
+                        case 'wb':
+                            item.marketTitle = 'Wildberries';
+                            item.marketLink = 'https://www.wildberries.ru/';
+                            item.reviewLink = item.link;
+                            break;
+                        case 'ctl':
+                            item.marketTitle = 'Citilink';
+                            item.marketLink = 'https://citilink.ru/';
+                            item.reviewLink = item.link + 'otzyvy';
+                            break;
+                        case 'eld':
+                            item.marketTitle = 'Eldorado';
+                            item.marketLink = 'https://www.eldorado.ru/';
+                            item.reviewLink = item.link + '?show=response#customTabAnchor';
+                    }
+                });
+            } else {
+                ctx.empty = true;
+            }
         }
         goShoppingCartPage(ctx);
     });

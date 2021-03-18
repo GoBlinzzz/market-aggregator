@@ -1,10 +1,19 @@
 <div class="shopping-cart">
     <div class="shopping-cart__content">
-        <div class="shopping-cart__title-div">
-            <div class="shopping-cart__title-text">
-                {{count}} Товаров
+        {{#if empty}}
+            <div class="shopping-cart__title-div">
+                <div class="shopping-cart__title-text">
+                    В корзине пока нет товаров
+                </div>
             </div>
-        </div>
+        {{else}}
+            <div class="shopping-cart__title-div">
+                <div class="shopping-cart__title-text">
+                    {{count}} товаров
+                </div>
+            </div>
+        {{/if}}
+
         <div class="shopping-cart__items-div">
             {{#each items}}
                 <div class="shopping-cart__item-div" id="{{link}}">
