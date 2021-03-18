@@ -163,13 +163,15 @@ function startWaiting() {
 }
 
 async function sendAddToCartRequest(id) {
-    const elem = document.getElementById(id).parentElement.parentElement.parentElement;
+    const elem = document.getElementById(id);
+    elem.setAttribute('src', 'assets/added.png');
+    const itemElem = elem.parentElement.parentElement.parentElement;
     const item = {
         link: id,
-        sourceMarket: elem.getElementsByClassName('catalog__item-source-market').item(0).textContent,
-        image: elem.getElementsByClassName('catalog__item-img').item(0).getAttribute('src'),
-        title: elem.getElementsByClassName('catalog__item-title').item(0).textContent,
-        price: elem.getElementsByClassName('catalog__item-price').item(0).textContent
+        sourceMarket: itemElem.getElementsByClassName('catalog__item-source-market').item(0).textContent,
+        image: itemElem.getElementsByClassName('catalog__item-img').item(0).getAttribute('src'),
+        title: itemElem.getElementsByClassName('catalog__item-title').item(0).textContent,
+        price: itemElem.getElementsByClassName('catalog__item-price').item(0).textContent
     };
 
     switch (item.sourceMarket) {
