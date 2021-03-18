@@ -73,6 +73,13 @@
 
 <div class="catalog">
     <div class="catalog__content">
+    {{#if notFound}}
+        <div class="catalog__request-div">
+            <div class="catalog__request-text">
+                По запросу «{{request}}» ничего не найдено
+            </div>
+        </div>
+    {{else}}
         <div class="catalog__request-div">
             <div class="catalog__request-text">
                 По запросу «{{request}}» найдено
@@ -93,6 +100,7 @@
                 <div class="catalog__sorting-param-div" onclick="sendSearchRequest('dprice')">Цене ↓</div>
             </div>
         </div>
+    {{/if}}
 
         <div class="catalog__items-div">
             {{#each items}}

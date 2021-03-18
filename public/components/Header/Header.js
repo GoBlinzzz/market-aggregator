@@ -64,10 +64,13 @@ async function sendSearchRequest(how = '') {
             'text': searchString,
             'how': how
         }
+
+        let catalogCtx = {};
+
         await http.get('/search', query)
             .then((res) => {
                 if (res.status === 200) {
-                    let catalogCtx = res.body;
+                    catalogCtx = res.body;
                     catalogCtx.items.forEach(item => {
                         if (item.rating === null) {
                             item.rating = {
@@ -93,10 +96,13 @@ async function sendSearchRequest(how = '') {
                                 item.reviewLink = item.link + '?show=response#customTabAnchor';
                         }
                     });
-                    catalogCtx.request = searchString;
 
-                    goCatalogPage(catalogCtx);
+                } else if (res.status === 404) {
+                    catalogCtx = {count: 0, notFound: true};
                 }
+
+                catalogCtx.request = searchString;
+                goCatalogPage(catalogCtx);
             });
         window.searchRequestPending = false;
     }
