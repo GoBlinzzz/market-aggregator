@@ -31,8 +31,6 @@
     color: #797979;
 }
 
-/* Sorting */
-
 .catalog__sorting-div {
     margin: 0 5%;
     display: flex;
@@ -121,6 +119,7 @@
 .catalog__item-title {
     font-size: 24px;
     transition: all 0.2s ease-out;
+    overflow: auto;
 }
 
 .catalog__item-title:hover {
