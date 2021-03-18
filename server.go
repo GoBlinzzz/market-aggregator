@@ -131,7 +131,7 @@ func main() {
 
 	srv := &http.Server{
 		Handler: router,
-		Addr:    "127.0.0.1:8000",
+		Addr:    "127.0.0.1:"+ os.Getenv("PORT"),
 	}
 
 	log.Fatal(srv.ListenAndServe())
