@@ -94,10 +94,10 @@
                 Сортировать по:
             </div>
             <div class="catalog__sorting-params-div">
-                <div class="catalog__sorting-param-div" onclick="sendSearchRequest()">Популярности</div>
-                <div class="catalog__sorting-param-div" onclick="sendSearchRequest('rating')">Рейтингу</div>
-                <div class="catalog__sorting-param-div" onclick="sendSearchRequest('aprice')">Цене ↑</div>
-                <div class="catalog__sorting-param-div" onclick="sendSearchRequest('dprice')">Цене ↓</div>
+                <div class="catalog__sorting-param-div {{#if popularity}}catalog__sorting-param-div_curr{{/if}}" onclick="sendSearchRequest('')">Популярности</div>
+                <div class="catalog__sorting-param-div {{#if rating}}catalog__sorting-param-div_curr{{/if}}" onclick="sendSearchRequest('rating')">Рейтингу</div>
+                <div class="catalog__sorting-param-div {{#if aprice}}catalog__sorting-param-div_curr{{/if}}" onclick="sendSearchRequest('aprice')">Цене ↑</div>
+                <div class="catalog__sorting-param-div {{#if dprice}}catalog__sorting-param-div_curr{{/if}}" onclick="sendSearchRequest('dprice')">Цене ↓</div>
             </div>
         </div>
     {{/if}}

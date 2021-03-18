@@ -77,6 +77,8 @@ async function sendSearchRequest(how = '') {
 
         let catalogCtx = {};
 
+        console.log(how)
+
         await http.get('/search', query)
             .then((res) => {
                 if (res.status === 200) {
@@ -112,6 +114,20 @@ async function sendSearchRequest(how = '') {
                 }
 
                 catalogCtx.request = searchString;
+                switch (how) {
+                    case 'rating':
+                        catalogCtx.rating = true;
+                        break;
+                    case 'aprice':
+                        catalogCtx.aprice = true;
+                        break;
+                    case 'dprice':
+                        catalogCtx.dprice = true;
+                        break;
+                    default:
+                        catalogCtx.popularity = true;
+                        break;
+                }
                 goCatalogPage(catalogCtx);
             });
         window.searchRequestPending = false;
