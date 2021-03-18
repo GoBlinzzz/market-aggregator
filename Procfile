@@ -1,1 +1,1 @@
-web: bin/market-backend
+web: npm i && npm run build && bin/market-backend
