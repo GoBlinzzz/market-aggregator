@@ -1,1 +1,1 @@
-web: bin/market-aggregator
+web: bin/market-backend
