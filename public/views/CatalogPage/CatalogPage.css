@@ -54,6 +54,11 @@
     margin: 0 0.5em;
 }
 
+.catalog__sorting-param-div_curr {
+    text-decoration: underline;
+    color: #624AD8;
+}
+
 .catalog__sorting-param-div:hover {
     cursor: pointer;
     transition: color 0.2s ease-out;
