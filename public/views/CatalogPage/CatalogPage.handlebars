@@ -1,0 +1,135 @@
+{{#*inline "stars-assets"}}
+    <svg id="stars" style="display: none;" version="1.1">
+        <symbol id="stars-full-star" viewBox="0 0 102 18">
+            <path d="M9.5 14.25l-5.584 2.936 1.066-6.218L.465 6.564l6.243-.907L9.5 0l2.792 5.657 6.243.907-4.517 4.404 1.066 6.218" />
+        </symbol>
+
+        <symbol id="stars-half-star" viewBox="0 0 102 18">
+            <path d="M9.5 14.25l-5.584 2.936 1.066-6.218L.465 6.564l6.243-.907L9.5 0l2.792" fill="#e9ba26" />
+        </symbol>
+
+        <symbol id="stars-all-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-full-star" />
+            <use xlink:href="#stars-full-star" transform="translate(21)" />
+            <use xlink:href="#stars-full-star" transform="translate(42)" />
+            <use xlink:href="#stars-full-star" transform="translate(63)" />
+            <use xlink:href="#stars-full-star" transform="translate(84)" />
+        </symbol>
+
+        <symbol id="stars-0-0-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-all-star" fill="#9b9b9b" />
+        </symbol>
+
+        <symbol id="stars-0-1-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-0-0-star" />
+            <use xlink:href="#stars-half-star" />
+        </symbol>
+
+        <symbol id="stars-1-0-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-0-0-star" />
+            <use xlink:href="#stars-full-star" fill="#e9ba26" />
+        </symbol>
+
+        <symbol id="stars-1-1-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-1-0-star" />
+            <use xlink:href="#stars-half-star" transform="translate(21)" />
+        </symbol>
+
+        <symbol id="stars-2-0-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-1-0-star" />
+            <use xlink:href="#stars-full-star" fill="#e9ba26" transform="translate(21)" />
+        </symbol>
+
+        <symbol id="stars-2-1-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-2-0-star" />
+            <use xlink:href="#stars-half-star" transform="translate(42)" />
+        </symbol>
+
+        <symbol id="stars-3-0-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-2-0-star" />
+            <use xlink:href="#stars-full-star" fill="#e9ba26" transform="translate(42)" />
+        </symbol>
+
+        <symbol id="stars-3-1-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-3-0-star" />
+            <use xlink:href="#stars-half-star" transform="translate(63)" />
+        </symbol>
+
+        <symbol id="stars-4-0-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-3-0-star" />
+            <use xlink:href="#stars-full-star" fill="#e9ba26" transform="translate(63)" />
+        </symbol>
+
+        <symbol id="stars-4-1-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-4-0-star" />
+            <use xlink:href="#stars-half-star" transform="translate(84)" />
+        </symbol>
+
+        <symbol id="stars-5-0-star" viewBox="0 0 102 18">
+            <use xlink:href="#stars-all-star" fill="#e9ba26" />
+        </symbol>
+    </svg>
+{{/inline}}
+
+<div class="catalog">
+    <div class="catalog__content">
+    {{#if notFound}}
+        <div class="catalog__request-div">
+            <div class="catalog__request-text">
+                По запросу «{{request}}» ничего не найдено
+            </div>
+        </div>
+    {{else}}
+        <div class="catalog__request-div">
+            <div class="catalog__request-text">
+                По запросу «{{request}}» найдено
+            </div>
+            <div class="catalog__request-count-found">
+                {{count}} товаров
+            </div>
+        </div>
+
+        <div class="catalog__sorting-div">
+            <div class="catalog__sorting-text">
+                Сортировать по:
+            </div>
+            <div class="catalog__sorting-params-div">
+                <div class="catalog__sorting-param-div {{#if popularity}}catalog__sorting-param-div_curr{{/if}}" onclick="sendSearchRequest('')">Популярности</div>
+                <div class="catalog__sorting-param-div {{#if rating}}catalog__sorting-param-div_curr{{/if}}" onclick="sendSearchRequest('rating')">Рейтингу</div>
+                <div class="catalog__sorting-param-div {{#if aprice}}catalog__sorting-param-div_curr{{/if}}" onclick="sendSearchRequest('aprice')">Цене ↑</div>
+                <div class="catalog__sorting-param-div {{#if dprice}}catalog__sorting-param-div_curr{{/if}}" onclick="sendSearchRequest('dprice')">Цене ↓</div>
+            </div>
+        </div>
+    {{/if}}
+
+        <div class="catalog__items-div">
+            {{#each items}}
+                <div class="catalog__item-div">
+                    <div class="catalog__item-img-div" onclick="goLink('{{link}}')">
+                        <img src="{{image}}" alt=""
+                             class="catalog__item-img" draggable="false">
+                    </div>
+                    <div class="catalog__item-info-div">
+                        <div class="catalog__item-price">{{price}}</div>
+                        <div class="catalog__item-title" onclick="goLink('{{link}}')">{{title}}</div>
+                        <div class="catalog__item-reviews-div">
+                            <div class="catalog__item-rating">
+                                {{> stars-assets}}
+                                {{#with rating}}
+                                <svg class="catalog__item-rating-icon">
+                                    <use xlink:href="#stars-{{count}}-{{withHalf}}-star">
+                                </svg>
+                                {{/with}}
+                                <span class="catalog__item-review-count" onclick="goLink('{{reviewLink}}')">({{reviewCount}})</span>
+                            </div>
+                        </div>
+                        <div class="catalog__add-to-cart-div">
+                            <img src="assets/add-to-cart.png" alt="" class="catalog__add-to-cart-img" draggable="false" id="{{link}}" onclick="sendAddToCartRequest('{{link}}')">
+                        </div>
+                        <div class="catalog__item-source-market catalog__item-source-market_{{sourceMarket}}" onclick="goLink('{{marketLink}}')">{{marketTitle}}</div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

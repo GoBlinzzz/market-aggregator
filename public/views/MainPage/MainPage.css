@@ -1,0 +1,32 @@
+.main-page {
+    width: auto;
+    height: auto;
+    min-height: 80%;
+    border-radius: 30px;
+    background-color: white;
+}
+
+.main-page__content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-page__banner-div {
+    width: 60vw;
+    max-height: 80%;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 30px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.4);
+    overflow: hidden;
+    display: flex;
+
+}
+
+.main-page__banner-img {
+    height: 100%;
+    width: 100%;
+    resize: both;
+}

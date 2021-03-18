@@ -1,0 +1,131 @@
+.header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: linear-gradient(45deg, #FFD940, #FFCD00);
+    margin-bottom: -3%;
+    height: fit-content;
+    padding: 2% 0 5% 0;
+}
+
+.header__content {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.header__logo {
+    min-width: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.header__logo-content {
+    width: auto;
+}
+
+.header__logo-content:hover {
+    cursor: pointer;
+}
+
+.header__logo-text {
+    font-size: 50px;
+    margin-top: -3px;
+    text-shadow: 1px 1px 2px rgba(31, 38, 135, 0.4);
+}
+
+.header__search {
+    min-width: 60%;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.header__search-input {
+    padding-left: 1em;
+    margin: 0 1em;
+    min-width: 40vw; /*Нужно адаптировать для мобильных устройств*/
+    height: 3em;
+    font-size: 24px;
+    border-radius: 30px;
+    border-style: none;
+    background-color: #FFE373;
+    box-shadow: 0 5px 5px 0 rgba(31, 38, 135, 0.2);
+}
+
+.header__search-input:hover {
+    cursor: pointer;
+    transition: background 0.5s ease-out;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.header__search-input:focus {
+    outline: none;
+    border-radius: 30px;
+    transition: background-color 0.3s ease-out;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.header__search-button {
+    padding: 0;
+    font-size: 24px;
+    height: 3em;
+    width: 5em;
+    text-align: center;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 5px 15px 0 rgba(31, 38, 135, 0.4);
+}
+
+.header__search-button:hover {
+    transition: background 0.3s ease-out;
+    background: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+}
+
+.header__search-button:focus {
+    outline: none;
+}
+
+.header__icons-div {
+    min-width: 20%;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    justify-self: end;
+}
+
+.header__shop-cart-div {
+    width: 25%;
+    transition: opacity 0.2s ease-out;
+}
+
+.header__shop-cart-div:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.header__profile-div {
+    width: 25%;
+    transition: opacity 0.2s ease-out;
+}
+
+.header__profile-div:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.header__shop-cart-img {
+    max-width: 100%;
+    min-width: 50%;
+}
+
+.header__profile-img {
+    max-width: 100%;
+}
