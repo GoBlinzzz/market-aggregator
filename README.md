@@ -10,6 +10,7 @@
 
 1. Выполнить в директории с проектом:
 
-`npm run build && go run server.go`
+`npm i && npm run build && go run server.go`
 
-2. Открыть [сайт](localhost:8000) по адресу **localhost:8000**
+2. Открыть сайт по адресу [localhost:8000](http://localhost:8000) 
+
